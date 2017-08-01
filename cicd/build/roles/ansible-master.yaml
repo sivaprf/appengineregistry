@@ -1,0 +1,10 @@
+- name: Dependencies (pip mechanism)
+  apt: pkg={{ item }} state=present
+  with_items:
+    - git
+    - libffi-dev
+    - libssl-dev
+    - python-dev
+    - python-pip
+  become: yes
+  tags: ansible_install

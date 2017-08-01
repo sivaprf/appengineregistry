@@ -11,4 +11,4 @@ gcloud beta compute users create builder --owner builder@gclouddemo.com
 mkdir -p /home/builder/g/gclouddemo
 chown -R builder /home/builder
 chgrp -R builder /home/builder
-git clone https://github.com/mzuo/gclouddemo.git /home/builder/g  -b master
+git clone https://github.com/mzuo/gclouddemo.git -b master
