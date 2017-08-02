@@ -6,7 +6,10 @@
   args:
     chdir: /home/builder
 
+#gcloud app create --region us-central
+
 - name: Enable AppEngine
   shell: hal config provider appengine account add appengine-simple-app --project cicd-174318  --json-path /home/builder/.gce_svc.json
   args:
     chdir: /home/builder
+

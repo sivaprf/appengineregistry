@@ -5,8 +5,23 @@
   args:
     chdir: /home/builder
 
+- name: Deploy Open Settings
+  shell: echo "host: 0.0.0.0" | tee ~/.hal/default/service-settings/gate.yml ~/.hal/default/service-settings/deck.yml
+  args:
+    chdir: /home/builder
+
+
+- name: Deploy Open Settings
+  shell: hal config security api edit  --override-base-url http://35.193.180.103:9000
+  args:
+    chdir: /home/builder
+
+- name: Deploy Open Settings
+  shell: hal config security ui edit  --override-base-url http://35.193.180.103:9000
+  args:
+    chdir: /home/builder
+
 - name: Deploy
   shell: sudo hal deploy apply
-  become:
   args:
     chdir: /home/builder
