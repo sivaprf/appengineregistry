@@ -1,0 +1,12 @@
+---
+
+- name: Deploy Version
+  shell: hal config version edit --version 1.1.2
+  args:
+    chdir: /home/builder
+
+- name: Deploy
+  shell: sudo hal deploy apply
+  become:
+  args:
+    chdir: /home/builder

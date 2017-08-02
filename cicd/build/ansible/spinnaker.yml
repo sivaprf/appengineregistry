@@ -4,6 +4,7 @@
 
 - hosts: spinnaker
   roles:
-    - min_python
+    # - min_python
+    # - setup_gcloud
     - spinnaker
 

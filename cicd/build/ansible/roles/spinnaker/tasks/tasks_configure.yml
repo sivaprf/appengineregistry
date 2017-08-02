@@ -1,0 +1,16 @@
+---
+- copy:
+    src: ../../inventory/files/vault/gce_cicd.json
+    dest: /home/builder/.gce_svc.json
+    owner: builder
+    group: builder
+    mode: 400
+
+- name: Setup Persistence GCS
+  shell: hal config storage gcs edit --project cicd-174318 --bucket gclouddemo-cicd-spinnaker --root-folder /persistence --json-path /home/builder/.gce_svc.json
+  args:
+    chdir: /home/builder
+
+
+- name: Setup Persistence GCS
+  shell: hal config storage edit --type gcs

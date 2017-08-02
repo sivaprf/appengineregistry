@@ -1,0 +1,12 @@
+
+---
+# https://www.spinnaker.io/reference/halyard/commands/#hal-config-provider-appengine-account-add
+- name: Enable AppEngine
+  shell: hal config provider appengine enable
+  args:
+    chdir: /home/builder
+
+- name: Enable AppEngine
+  shell: hal config provider appengine account add appengine-simple-app --project cicd-174318  --json-path /home/builder/.gce_svc.json
+  args:
+    chdir: /home/builder

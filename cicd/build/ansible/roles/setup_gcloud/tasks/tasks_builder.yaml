@@ -1,0 +1,18 @@
+---
+- name: Insure temp path exists
+  file:
+    path: /home/builder/sw/gcloud_sdk/install
+    state: directory
+
+- name: Get URL
+  get_url:
+    url: https://sdk.cloud.google.com
+    dest: /home/builder/sw/gcloud_sdk/install/install_command.sh
+    force: yes
+
+- name: Setup Halyard
+  command: bash /home/builder/sw/gcloud_sdk/install/install_command.sh --quiet
+  args:
+    chdir: /home/builder/sw/gcloud_sdk
+
+

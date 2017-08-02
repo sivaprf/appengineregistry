@@ -1,0 +1,13 @@
+---
+- name: remove the gcloud links - X11
+  file: path=/usr/bin/X11/gcloud state=absent
+
+- name: remove the gcloud links - /usr/bin
+  file: path=/usr/bin/gcloud state=absent
+
+
+- name: setup gcloud symlinks /usr/bin
+  file: path=/usr/bin/gcloud src=/home/builder/gcloud/google-cloud-sdk/bin/gcloud state=link force=yes
+
+- name: setup gcloud symlinks - X11
+  file: path=/usr/bin/X11/gcloud src=/home/builder/gcloud/google-cloud-sdk/bin/gcloud state=link force=yes

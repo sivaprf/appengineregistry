@@ -27,3 +27,11 @@ ansible-galaxy install  AMeng.spinnaker --roles-path /home/builder/g/gclouddemo/
 
 
 ansible-vault create secret_key
+
+
+## Ansible - Spinnaker - Playbook
+
+```
+ansible-playbook spinnaker.yml -i inventory/hosts.yml -vvv
+```
+

@@ -2,11 +2,11 @@
 - name: Get URL
   get_url:
     url: https://raw.githubusercontent.com/spinnaker/halyard/master/install/stable/InstallHalyard.sh
-    dest: /opt/sw/spinnaker/halyard/InstallHalyard.sh
+    dest: /home/builder
 
 - name: Setup Halyard
-  command: bash InstallHalyard.sh
+  command: sudo bash InstallHalyard.sh --user builder --home_dir /home
   args:
-    chdir: /opt/sw/spinnaker/halyard  
+    chdir: /home/builder
 
 
