@@ -1,0 +1,9 @@
+---
+- name: Ensures Spinnaker SW dir exists
+  file:
+    path: /opt/sw/spinnaker/halyard 
+    state: directory
+    owner: builder
+    group: builder
+
+

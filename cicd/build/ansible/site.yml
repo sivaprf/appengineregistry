@@ -1,0 +1,11 @@
+---
+
+- hosts: all
+  roles:
+    - min_python
+
+# spinnaker
+
+- hosts: spinnaker
+  roles:
+    - min_python

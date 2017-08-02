@@ -1,0 +1,13 @@
+---
+- name: Setup python for ansible
+  apt: name={{item}} state=present force=yes update_cache=yes
+  with_items:
+    - build-essential
+    - python-setuptools
+    - python-dev
+    - python-simplejson
+
+- name: setup pip
+  command: easy_install pip
+
+

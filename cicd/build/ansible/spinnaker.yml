@@ -1,0 +1,9 @@
+---
+
+# spinnaker
+
+- hosts: spinnaker
+  roles:
+    - min_python
+    - spinnaker
+

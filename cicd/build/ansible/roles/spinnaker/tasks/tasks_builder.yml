@@ -1,0 +1,12 @@
+---
+- name: Get URL
+  get_url:
+    url: https://raw.githubusercontent.com/spinnaker/halyard/master/install/stable/InstallHalyard.sh
+    dest: /opt/sw/spinnaker/halyard/InstallHalyard.sh
+
+- name: Setup Halyard
+  command: bash InstallHalyard.sh
+  args:
+    chdir: /opt/sw/spinnaker/halyard  
+
+
