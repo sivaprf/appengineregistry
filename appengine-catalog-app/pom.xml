@@ -36,9 +36,9 @@ limitations under the License.
     <guava.version>18.0</guava.version>
     <endpoints.framework.version>2.0.0-beta.7</endpoints.framework.version>
     <endpoints.management.version>1.0.0-beta.7</endpoints.management.version>
-    <instance_connection_name>wombat-171617:us-central1:gcp-image-demo</instance_connection_name>
-    <user>gcpdemouser</user>
-    <database>gclouddemo_productstore</database>
+    <instance_connection_name>ecom-dev-app:us-central1:ecom-dev-catalog-db</instance_connection_name>
+    <user>gclouddemouser</user>
+    <database>gclouddemo_catalog</database>
   </properties>
 
   <prerequisites>
@@ -202,15 +202,6 @@ limitations under the License.
     </plugins>
   </build>
   <profiles>
-  	<profile>
-	  	<id>local-hamish-dev</id>
-  		<properties>
-	  		<instance_connection_name>wombat-171617:us-central1:gcp-image-demo</instance_connection_name>
-		    <user>gcpdemouser</user>
-		    <password>Uzdw2WcFCqWsXt</password>
-		    <database>gclouddemo_productstore</database>
-  		</properties>
-  	</profile>
   	<profile>
 	  	<id>cloud-dev</id>
   		<properties>

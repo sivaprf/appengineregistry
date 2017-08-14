@@ -8,11 +8,12 @@
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
         <property name="appengine.api.urlfetch.defaultDeadline" value="10"/>
         
-        <property name="keyring-name" value="poc-storage" />
-        <property name="key-name" value="poc-mysql-gclouddemo" />
-        <property name="mysql-pwd-bucketname" value="wombat-ecom-detritus" />
-        <property name="mysql-pwd-objectname" value="mysql-gclouddemo.txt" />
-    	<property name="cloudsql-local" value="jdbc:mysql://104.198.41.158/${database}?user=${user}&amp;password=" />
+        <property name="keyring-project-name" value="ecom-keys" />
+        <property name="keyring-name" value="ecom-keyring" />
+        <property name="key-name" value="ecom-dev-sql-login" />
+        <property name="mysql-pwd-bucketname" value="ecom-dev-sql-files" />
+        <property name="mysql-pwd-objectname" value="sql-login.txt" />
+    	<property name="cloudsql-local" value="jdbc:mysql://35.202.25.113/${database}?user=${user}&amp;password=" />
     	<property name="cloudsql-deployed" value="jdbc:google:mysql://${instance_connection_name}/${database}?user=${user}&amp;password=" />
     </system-properties>
 </appengine-web-app>

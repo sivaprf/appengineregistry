@@ -42,8 +42,8 @@ public class EcomCatalogServlet extends HttpServlet {
     private static final String PARAM_CATEGORY_NAME = "c";
     private static final String PARAM_SUBCATEGORY_NAME = "s";
     
-    private static final String CLIENT_NAME = "GCloud Demo Catalog App Engine";
-    private static final String PROJECT_NAME = "wombat-171617";
+    private static final String CLIENT_NAME = "GCloud Catalog App Engine Example";
+    private static final String KEY_PROJECT_NAME = "keyring-project-name";
     
     private static final String KEYRING_NAME_PROP = "keyring-name";
     private static final String KEY_NAME_PROP = "key-name";
@@ -62,7 +62,7 @@ public class EcomCatalogServlet extends HttpServlet {
 			String base64Str = KmsHelper.getEncryptedPasswordFromBucket(
 											System.getProperty(BUCKET_NAME_PROP_NAME),
 											System.getProperty(OBJECT_NAME_PROP_NAME));
-			this.sqlPwd = KmsHelper.decryptString(CLIENT_NAME, PROJECT_NAME,
+			this.sqlPwd = KmsHelper.decryptString(CLIENT_NAME, System.getProperty(KEY_PROJECT_NAME, "none"),
 											System.getProperty(KEYRING_NAME_PROP, "none"),
 											System.getProperty(KEY_NAME_PROP, "none"),
 											base64Str);

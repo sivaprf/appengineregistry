@@ -26,11 +26,11 @@ public class EcomCatalogCloudSql implements EcomCatalogConnection {
 	
 	private static final Logger LOG = Logger.getLogger(EcomCatalogCloudSql.class.getName());
 	
-	private static final String LIST_QUERY_ALL_STR = "SELECT * FROM gclouddemo_productstore.products";
+	private static final String LIST_QUERY_ALL_STR = "SELECT * FROM gclouddemo_catalog.products";
 	private static final String LIST_QUERY_CAT_STR =
-			"SELECT * FROM gclouddemo_productstore.products WHERE category='%s'";
+			"SELECT * FROM gclouddemo_catalog.products WHERE category='%s'";
 	private static final String LIST_QUERY_CAT_SUBCAT_STR =
-			"SELECT * FROM gclouddemo_productstore.products WHERE category='%s' AND subcategory='%s'";
+			"SELECT * FROM gclouddemo_catalog.products WHERE category='%s' AND subcategory='%s'";
 	
 	private static final int PRODUCTS_ID_COL = 1;
 	private static final int PRODUCTS_SUMMARY_COL = 2;
