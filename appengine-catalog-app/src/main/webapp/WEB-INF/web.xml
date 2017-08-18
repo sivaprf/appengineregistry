@@ -12,4 +12,15 @@
     <servlet-name>EcomCatalogServlet</servlet-name>
     <url-pattern>/catalog</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>ChallengeServlet</servlet-name>
+    <servlet-class>com.gclouddemo.ecommerce.catalog.ChallengeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ChallengeServlet</servlet-name>
+    <url-pattern>/.well-known/acme-challenge/*</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
 </web-app>
