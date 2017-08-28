@@ -85,7 +85,7 @@ public class EcomCatalogServlet extends HttpServlet {
 		
 		try {
 			if (!PREFERRED_REQUEST_SCHEME.equalsIgnoreCase(request.getScheme())) {
-				String httpsUrl = PREFERRED_REQUEST_SCHEME + "//" + request.getServerName()
+				String httpsUrl = PREFERRED_REQUEST_SCHEME + "://" + request.getServerName()
                 				+ request.getContextPath() + request.getServletPath();
 		        if (request.getPathInfo() != null) {
 		        	httpsUrl += request.getPathInfo();
