@@ -51,6 +51,9 @@ public class EcomCatalogServlet extends HttpServlet {
     private static final String BUCKET_NAME_PROP_NAME = "mysql-pwd-bucketname";
     private static final String OBJECT_NAME_PROP_NAME = "mysql-pwd-objectname";
     
+    /** We want to redirect manually to HTTPS... */
+    private static final String PREFERRED_REQUEST_SCHEME = "https";
+    
     private String sqlPwd = null;
     private boolean useSql = true;
        	
@@ -81,6 +84,15 @@ public class EcomCatalogServlet extends HttpServlet {
 		String subCategoryName = request.getParameter(PARAM_SUBCATEGORY_NAME);
 		
 		try {
+			if (!PREFERRED_REQUEST_SCHEME.equalsIgnoreCase(request.getScheme())) {
+				String httpsUrl = PREFERRED_REQUEST_SCHEME + "//" + request.getServerName()
+                				+ request.getContextPath() + request.getServletPath();
+		        if (request.getPathInfo() != null) {
+		        	httpsUrl += request.getPathInfo();
+		        }
+		        response.sendRedirect(httpsUrl);
+		        return;
+			}
 			if (useSql) {
 				String url = EcomCatalogCloudSql.makeConnectionUrl(sqlPwd);
 				conn = getConnection(CONNECTION_TYPE_CLOUDSQL, url);
