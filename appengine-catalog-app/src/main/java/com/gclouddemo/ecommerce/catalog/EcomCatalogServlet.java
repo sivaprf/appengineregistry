@@ -90,6 +90,9 @@ public class EcomCatalogServlet extends HttpServlet {
 		        if (request.getPathInfo() != null) {
 		        	httpsUrl += request.getPathInfo();
 		        }
+		        if (request.getQueryString() != null) {
+		        	httpsUrl += ("?" + request.getQueryString());
+		        }
 		        response.sendRedirect(httpsUrl);
 		        return;
 			}
