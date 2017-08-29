@@ -150,7 +150,7 @@ public class EcomCatalogCloudSql implements EcomCatalogConnection {
 				preparedStatement.setString(1, catalogItem.getSummary());
 				preparedStatement.setString(2, catalogItem.getSku());
 				preparedStatement.setString(3, catalogItem.getDescription());
-				preparedStatement.setBigDecimal(4, new BigDecimal(catalogItem.getDescription()));
+				preparedStatement.setBigDecimal(4, catalogItem.getPrice());
 				preparedStatement.setString(5, catalogItem.getThumb());
 				preparedStatement.setString(6, catalogItem.getImage());
 				preparedStatement.setString(7, catalogItem.getCategory());
