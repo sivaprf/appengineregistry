@@ -38,7 +38,7 @@ public class EcomCatalogRendererTest {
 		MockitoAnnotations.initMocks(this);
 	    helper.setUp();
 	    
-	    renderer = new EcomJsonRenderer();
+	    renderer = new EcomJsonRenderer(true);
 	}
 	
 	@After

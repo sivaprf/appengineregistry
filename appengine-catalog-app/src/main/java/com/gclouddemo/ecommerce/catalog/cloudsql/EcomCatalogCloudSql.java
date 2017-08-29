@@ -3,7 +3,6 @@
  */
 package com.gclouddemo.ecommerce.catalog.cloudsql;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -35,6 +34,9 @@ public class EcomCatalogCloudSql implements EcomCatalogConnection {
 			"SELECT * FROM " + PRODUCTS_TABLE_NAME + " WHERE category='%s'";
 	private static final String LIST_QUERY_CAT_SUBCAT_STR =
 			"SELECT * FROM " + PRODUCTS_TABLE_NAME + " WHERE category='%s' AND subcategory='%s'";
+	
+	private static final String SKU_ITEM_QUERY_STR =
+			"SELECT * FROM " + PRODUCTS_TABLE_NAME + " WHERE sku=?";
 	
 	private static final String ITEM_INSERT_QUERY = "INSERT INTO " + PRODUCTS_TABLE_NAME
 			+ " VALUES (summary, sku, description, price, thumb, image, category, subcategory, details)"
@@ -191,6 +193,26 @@ public class EcomCatalogCloudSql implements EcomCatalogConnection {
 
 	@Override
 	public List<CatalogItem> searchItems(String searchString) throws Exception {
+		return null;
+	}
+
+	@Override
+	public CatalogItem getSku(String sku) throws Exception {
+		if (conn != null && sku != null) {
+			PreparedStatement preparedStatement = null;
+			
+			try {
+				preparedStatement = conn.prepareStatement(SKU_ITEM_QUERY_STR);
+				preparedStatement.setString(1, sku);
+				ResultSet rs = preparedStatement.executeQuery();
+				return constructItem(rs);
+			} finally {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+			}
+		}
+		
 		return null;
 	}
 }

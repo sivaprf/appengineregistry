@@ -34,10 +34,10 @@ public class EcomCatalogListServlet extends HttpServlet {
     
     private static final String MIME_TYPE_JSON = "application/json";
     
-    private static final String PARAM_QUERY_LIST_NAME = "l";
-    
     private static final String PARAM_CATEGORY_NAME = "c";
     private static final String PARAM_SUBCATEGORY_NAME = "s";
+    private static final String PARAM_SKU_NAME = "k";
+    private static final String PARAM_PRETTYPRINT_NAME = "p";
     
     private static final String CLIENT_NAME = "GCloud Catalog App Engine Example";
     private static final String KEY_PROJECT_NAME = "keyring-project-name";
@@ -73,9 +73,10 @@ public class EcomCatalogListServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		EcomCatalogConnection conn = null;
-		String listParam = request.getParameter(PARAM_QUERY_LIST_NAME);
 		String categoryName = request.getParameter(PARAM_CATEGORY_NAME);
 		String subCategoryName = request.getParameter(PARAM_SUBCATEGORY_NAME);
+		String sku = request.getParameter(PARAM_SKU_NAME);
+		boolean prettyPrint = new Boolean(request.getParameter(PARAM_PRETTYPRINT_NAME));
 		
 		try {
 
@@ -87,10 +88,12 @@ public class EcomCatalogListServlet extends HttpServlet {
 			}
 
 			if (conn != null) {
-				if (listParam != null) {
+				if (sku != null) {
+					sendJson(response, new EcomJsonRenderer(prettyPrint).renderCatalogItem(getItem(conn, sku)));
+				} else {
 					sendJson(response,
-							new EcomJsonRenderer().renderItemList(getItemList(conn, categoryName, subCategoryName),
-														null, null));
+							new EcomJsonRenderer(prettyPrint).renderItemList(
+									getItemList(conn, categoryName, subCategoryName), null, null));
 				}
 			}	
 		} catch (Throwable thr) {
@@ -149,6 +152,25 @@ public class EcomCatalogListServlet extends HttpServlet {
 			if (conn != null) {
 				conn.open();
 				return conn.listItems(category, subCategory);
+			} else  {
+				LOG.log(Level.SEVERE, "Unable to connect to ecommerce catalog");
+				return null;
+			}
+		} catch (Throwable thr) {
+			LOG.log(Level.SEVERE, thr.getLocalizedMessage(), thr);
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		return null;
+	}
+	
+	private CatalogItem getItem(EcomCatalogConnection conn, String sku) throws Exception {
+		try {
+			if (conn != null) {
+				conn.open();
+				return conn.getSku(sku);
 			} else  {
 				LOG.log(Level.SEVERE, "Unable to connect to ecommerce catalog");
 				return null;
