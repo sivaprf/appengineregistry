@@ -2,6 +2,7 @@ DROP TABLE `products`;
 CREATE TABLE `products` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `summary` varchar(2048) NOT NULL,
+  `sku` varchar(1024) NOT NULL,
   `description` varchar(2048) NOT NULL,
   `price` decimal(5,2) DEFAULT '0.00',
   `thumb` varchar(2048) DEFAULT NULL,
