@@ -9,9 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,9 +32,9 @@ public class EcomCatalogCloudSql implements EcomCatalogConnection {
 	
 	private static final String LIST_QUERY_ALL_STR = "SELECT * FROM " + PRODUCTS_TABLE_NAME;
 	private static final String LIST_QUERY_CAT_STR =
-			"SELECT * FROM " + PRODUCTS_TABLE_NAME + " WHERE category='%s'";
+			"SELECT * FROM " + PRODUCTS_TABLE_NAME + " WHERE category=?";
 	private static final String LIST_QUERY_CAT_SUBCAT_STR =
-			"SELECT * FROM " + PRODUCTS_TABLE_NAME + " WHERE category='%s' AND subcategory='%s'";
+			"SELECT * FROM " + PRODUCTS_TABLE_NAME + " WHERE category=? AND subcategory=?";
 	
 	private static final String SKU_ITEM_QUERY_STR =
 			"SELECT * FROM " + PRODUCTS_TABLE_NAME + " WHERE sku=?";
@@ -114,20 +112,23 @@ public class EcomCatalogCloudSql implements EcomCatalogConnection {
 	public List<CatalogItem> listItems(String category, String subCategory) throws Exception {
 		List<CatalogItem> items = new ArrayList<CatalogItem>();
 		ResultSet rs = null;
-		StringBuilder ssb = new StringBuilder();
-		Formatter formatter = new Formatter(ssb, Locale.US);
+		PreparedStatement prep = null;
 		
 		try {
 			if (conn != null) {
+				
 				if (category == null) {
-					ssb.append(LIST_QUERY_ALL_STR);
+					prep = conn.prepareStatement(LIST_QUERY_ALL_STR);
 				} else if (subCategory == null) {
-					formatter.format(LIST_QUERY_CAT_STR, category);
+					prep = conn.prepareStatement(LIST_QUERY_CAT_STR);
+					prep.setString(1, category);
 				} else {
-					formatter.format(LIST_QUERY_CAT_SUBCAT_STR, category, subCategory);
+					prep = conn.prepareStatement(LIST_QUERY_CAT_SUBCAT_STR);
+					prep.setString(1, category);
+					prep.setString(2, subCategory);
 				}
 				
-				rs = conn.createStatement().executeQuery(ssb.toString());
+				rs = prep.executeQuery();
 				
 				if (rs != null) {
 					while (rs.next()) {
@@ -143,8 +144,8 @@ public class EcomCatalogCloudSql implements EcomCatalogConnection {
 				rs.close();
 			}
 			
-			if (formatter != null) {
-				formatter.close();
+			if (prep != null) {
+				prep.close();
 			}
 		}
 		
