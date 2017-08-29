@@ -42,13 +42,14 @@ public class EcomCatalogCloudSql implements EcomCatalogConnection {
 	
 	private static final int PRODUCTS_ID_COL = 1;
 	private static final int PRODUCTS_SUMMARY_COL = 2;
-	private static final int PRODUCTS_DESCRIPTION_COL = 3;
-	private static final int PRODUCTS_PRICE_COL = 4;
-	private static final int PRODUCTS_THUMB_COL = 5;
-	private static final int PRODUCTS_IMAGE_COL = 6;
-	private static final int PRODUCTS_CATEGORY_COL = 8;
-	private static final int PRODUCTS_SUBCATEGORY_COL = 9;
-	private static final int PRODUCTS_DETAILS_COL = 10;
+	private static final int PRODUCTS_SKU_COL = 3;
+	private static final int PRODUCTS_DESCRIPTION_COL = 4;
+	private static final int PRODUCTS_PRICE_COL = 5;
+	private static final int PRODUCTS_THUMB_COL = 6;
+	private static final int PRODUCTS_IMAGE_COL = 7;
+	private static final int PRODUCTS_CATEGORY_COL = 9;
+	private static final int PRODUCTS_SUBCATEGORY_COL = 10;
+	private static final int PRODUCTS_DETAILS_COL = 11;
 	
     private static final String HOSTNAME_PROP_NAME = "com.google.appengine.runtime.default_version_hostname";
     
@@ -175,6 +176,7 @@ public class EcomCatalogCloudSql implements EcomCatalogConnection {
 		if (rs != null) {
 			item.setId(rs.getInt(PRODUCTS_ID_COL));
 			item.setSummary(rs.getString(PRODUCTS_SUMMARY_COL));
+			item.setSku(rs.getString(PRODUCTS_SKU_COL));
 			item.setDescription(rs.getString(PRODUCTS_DESCRIPTION_COL));
 			item.setPrice(rs.getBigDecimal(PRODUCTS_PRICE_COL));
 			item.setThumb(rs.getString(PRODUCTS_THUMB_COL));
