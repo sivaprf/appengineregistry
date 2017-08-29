@@ -27,6 +27,9 @@ public class EcomCatalogCloudSql implements EcomCatalogConnection {
 	
 	private static final Logger LOG = Logger.getLogger(EcomCatalogCloudSql.class.getName());
 	
+	/** SKU used to flag non-display (test) entries */
+	private static final String TEST_SKU = "ZZ-0000-Z";
+	
 	private static final String PRODUCTS_TABLE_NAME = "gclouddemo_catalog.products";
 	
 	private static final String LIST_QUERY_ALL_STR = "SELECT * FROM " + PRODUCTS_TABLE_NAME;
@@ -128,7 +131,10 @@ public class EcomCatalogCloudSql implements EcomCatalogConnection {
 				
 				if (rs != null) {
 					while (rs.next()) {
-						items.add(constructItem(rs));
+						CatalogItem item = constructItem(rs);
+						if (item != null && !TEST_SKU.equalsIgnoreCase(item.getSku())) {
+							items.add(constructItem(rs));
+						}
 					}
 				}
 			}

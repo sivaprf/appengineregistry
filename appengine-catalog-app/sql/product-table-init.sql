@@ -1,4 +1,10 @@
 INSERT INTO `gclouddemo_catalog`.`products` (`sku`, `summary`, `description`, `price`, `category`, `subcategory`, `details`, `image`, `thumb`)
+VALUES ('ZZ-0000-Z', 'Test Entry 01', '100% cotton jersey fabric makes this Google t-shirt perfect for the Google hero in your life. Made in USA.',
+	'46.99', 'Women\'s Apparel', 'T-Shirts', '100% Cotton\n30 Singles jersey\nCrew neck\nMade in USA',
+	'https://storage.googleapis.com/ecom-dev-catalog-images/GGOEGAAX0278-th1.jpg',
+	'https://storage.googleapis.com/ecom-dev-catalog-images/GGOEGAAX0278.jpg');
+
+INSERT INTO `gclouddemo_catalog`.`products` (`sku`, `summary`, `description`, `price`, `category`, `subcategory`, `details`, `image`, `thumb`)
 VALUES ('AB-0983-Z', 'Google Women\'s Short Sleeve Hero Tee Black', '100% cotton jersey fabric makes this Google t-shirt perfect for the Google hero in your life. Made in USA.',
 	'16.99', 'Women\'s Apparel', 'T-Shirts', '100% Cotton\n30 Singles jersey\nCrew neck\nMade in USA',
 	'https://storage.googleapis.com/ecom-dev-catalog-images/GGOEGAAX0278-th1.jpg',
