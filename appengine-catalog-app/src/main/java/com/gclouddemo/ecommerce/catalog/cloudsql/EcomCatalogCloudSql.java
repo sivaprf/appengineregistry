@@ -3,8 +3,10 @@
  */
 package com.gclouddemo.ecommerce.catalog.cloudsql;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -26,11 +28,17 @@ public class EcomCatalogCloudSql implements EcomCatalogConnection {
 	
 	private static final Logger LOG = Logger.getLogger(EcomCatalogCloudSql.class.getName());
 	
-	private static final String LIST_QUERY_ALL_STR = "SELECT * FROM gclouddemo_catalog.products";
+	private static final String PRODUCTS_TABLE_NAME = "gclouddemo_catalog.products";
+	
+	private static final String LIST_QUERY_ALL_STR = "SELECT * FROM " + PRODUCTS_TABLE_NAME;
 	private static final String LIST_QUERY_CAT_STR =
-			"SELECT * FROM gclouddemo_catalog.products WHERE category='%s'";
+			"SELECT * FROM " + PRODUCTS_TABLE_NAME + " WHERE category='%s'";
 	private static final String LIST_QUERY_CAT_SUBCAT_STR =
-			"SELECT * FROM gclouddemo_catalog.products WHERE category='%s' AND subcategory='%s'";
+			"SELECT * FROM " + PRODUCTS_TABLE_NAME + " WHERE category='%s' AND subcategory='%s'";
+	
+	private static final String ITEM_INSERT_QUERY = "INSERT INTO " + PRODUCTS_TABLE_NAME
+			+ " VALUES (summary, sku, description, price, thumb, image, category, subcategory, details)"
+			+ "(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 	private static final int PRODUCTS_ID_COL = 1;
 	private static final int PRODUCTS_SUMMARY_COL = 2;
@@ -130,6 +138,35 @@ public class EcomCatalogCloudSql implements EcomCatalogConnection {
 		}
 		
 		return items;
+	}
+	
+
+	@Override
+	public boolean insertItem(CatalogItem catalogItem) throws Exception {
+		PreparedStatement preparedStatement = null;
+		try {
+			if (conn != null && catalogItem != null) {
+				preparedStatement = conn.prepareStatement(ITEM_INSERT_QUERY);
+				preparedStatement.setString(1, catalogItem.getSummary());
+				preparedStatement.setString(2, catalogItem.getSku());
+				preparedStatement.setString(3, catalogItem.getDescription());
+				preparedStatement.setBigDecimal(4, new BigDecimal(catalogItem.getDescription()));
+				preparedStatement.setString(5, catalogItem.getThumb());
+				preparedStatement.setString(6, catalogItem.getImage());
+				preparedStatement.setString(7, catalogItem.getCategory());
+				preparedStatement.setString(8, catalogItem.getSubcategory());
+				preparedStatement.setString(9, catalogItem.getDetails());
+				
+				preparedStatement.execute();
+				return true;
+			}
+		} finally {
+			if (preparedStatement != null) {
+				preparedStatement.close();
+			}
+		}
+		
+		return false;
 	}
 	
 	private CatalogItem constructItem(ResultSet rs) throws SQLException {

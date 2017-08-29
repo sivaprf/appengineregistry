@@ -16,6 +16,7 @@ public class EcomCatalogMockData {
 	
 	private static final CatalogItem testItem01 = new CatalogItem(
 			123,
+			"EE-0009-T",
 			"Google Women's Short Sleeve Hero Tee Black",
 			"100% cotton jersey fabric makes this Google t-shirt perfect for the Google hero in your life. Made in USA.",
 			new BigDecimal("19.99"),

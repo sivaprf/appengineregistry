@@ -16,4 +16,5 @@ public interface EcomCatalogConnection {
 	void close();
 	List<CatalogItem> listItems(String category, String subCategory) throws Exception;
 	List<CatalogItem> searchItems(String searchString) throws Exception;
+	boolean insertItem(CatalogItem catalogItem) throws Exception;
 }

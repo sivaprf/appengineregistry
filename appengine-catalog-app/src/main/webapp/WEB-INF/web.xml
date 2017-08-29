@@ -4,6 +4,14 @@
          xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
+  <filter>
+  	<filter-name>HTTPS Redirector</filter-name>
+  	<filter-class>com.gclouddemo.ecommerce.catalog.HttpsRedirectFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>HTTPS Redirector</filter-name>    
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
   <servlet>
     <servlet-name>EcomCatalogServlet</servlet-name>
     <servlet-class>com.gclouddemo.ecommerce.catalog.EcomCatalogServlet</servlet-class>

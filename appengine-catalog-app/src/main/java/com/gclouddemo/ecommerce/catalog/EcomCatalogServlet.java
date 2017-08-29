@@ -3,6 +3,7 @@
  */
 package com.gclouddemo.ecommerce.catalog;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
@@ -19,6 +20,7 @@ import com.gclouddemo.ecommerce.catalog.bean.CatalogItem;
 import com.gclouddemo.ecommerce.catalog.cloudsql.EcomCatalogCloudSql;
 import com.gclouddemo.ecommerce.catalog.renderer.EcomHtmlRenderer;
 import com.gclouddemo.ecommerce.catalog.renderer.EcomJsonRenderer;
+import com.google.gson.Gson;
 
 /**
  * App engine entry servlet that fields the main ecommerce REST get calls for the product catalog.
@@ -51,11 +53,9 @@ public class EcomCatalogServlet extends HttpServlet {
     private static final String BUCKET_NAME_PROP_NAME = "mysql-pwd-bucketname";
     private static final String OBJECT_NAME_PROP_NAME = "mysql-pwd-objectname";
     
-    /** We want to redirect manually to HTTPS... */
-    private static final String PREFERRED_REQUEST_SCHEME = "https";
-    
     private String sqlPwd = null;
     private boolean useSql = true;
+    private static final Gson gson = new Gson();
        	
     public EcomCatalogServlet() {
     	super();
@@ -84,18 +84,7 @@ public class EcomCatalogServlet extends HttpServlet {
 		String subCategoryName = request.getParameter(PARAM_SUBCATEGORY_NAME);
 		
 		try {
-			if (!PREFERRED_REQUEST_SCHEME.equalsIgnoreCase(request.getScheme())) {
-				String httpsUrl = PREFERRED_REQUEST_SCHEME + "://" + request.getServerName()
-                				+ request.getContextPath() + request.getServletPath();
-		        if (request.getPathInfo() != null) {
-		        	httpsUrl += request.getPathInfo();
-		        }
-		        if (request.getQueryString() != null) {
-		        	httpsUrl += ("?" + request.getQueryString());
-		        }
-		        response.sendRedirect(httpsUrl);
-		        return;
-			}
+
 			if (useSql) {
 				String url = EcomCatalogCloudSql.makeConnectionUrl(sqlPwd);
 				conn = getConnection(CONNECTION_TYPE_CLOUDSQL, url);
@@ -119,6 +108,41 @@ public class EcomCatalogServlet extends HttpServlet {
 			LOG.log(Level.SEVERE, thr.getLocalizedMessage(), thr);
 		}
 		
+	}
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		EcomCatalogConnection conn = null;
+		try {
+			String jasonString = null;   
+		    StringBuilder builder = new StringBuilder();
+		    BufferedReader reader = request.getReader();
+		    String line;
+		    while ((line = reader.readLine()) != null) {
+		        builder.append(line);
+		    }
+		    jasonString = builder.toString();
+		    LOG.info(jasonString);
+		    CatalogItem catalogItem = gson.fromJson(jasonString, CatalogItem.class);
+		    LOG.info("item: " + catalogItem);
+		    
+		    if (useSql) {
+				String url = EcomCatalogCloudSql.makeConnectionUrl(sqlPwd);
+				conn = getConnection(CONNECTION_TYPE_CLOUDSQL, url);
+			} else {
+				// do the datastore version...
+			}
+		    
+		    if (conn != null) {
+		    	
+		    }
+		} catch (Throwable thr) {
+			LOG.log(Level.SEVERE, thr.getLocalizedMessage());
+			throw thr;
+		} finally {
+			
+		}
 	}
 	
 	private EcomCatalogConnection getConnection(String type, String url) {

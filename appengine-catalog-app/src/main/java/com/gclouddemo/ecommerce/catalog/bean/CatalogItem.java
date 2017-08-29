@@ -5,11 +5,15 @@ package com.gclouddemo.ecommerce.catalog.bean;
 
 import java.math.BigDecimal;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 /**
  * Represents a catalog item.
  */
 public class CatalogItem {
 	private long id;
+	private String sku;
 	private String summary;
 	private String description;
 	private BigDecimal price;
@@ -18,6 +22,8 @@ public class CatalogItem {
 	private String category;
 	private String subcategory;
 	private String details;
+	
+	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
 	public String getDetails() {
 		return details;
@@ -30,7 +36,7 @@ public class CatalogItem {
 	public CatalogItem() {
 	}
 	
-	public CatalogItem(long id, String summary, String description, BigDecimal price, String thumb, String image,
+	public CatalogItem(long id, String sku, String summary, String description, BigDecimal price, String thumb, String image,
 			String category, String subcategory, String details) {
 		super();
 		this.id = id;
@@ -43,11 +49,24 @@ public class CatalogItem {
 		this.subcategory = subcategory;
 		this.details = details;
 	}
+	
+	@Override
+	public String toString() {
+		return gson.toJson(this, this.getClass());
+	}
+	
 	public long getId() {
 		return id;
 	}
 	public void setId(long id) {
 		this.id = id;
+	}
+	public String getSku() {
+		return sku;
+	}
+
+	public void setSku(String sku) {
+		this.sku = sku;
 	}
 	public String getSummary() {
 		return summary;
