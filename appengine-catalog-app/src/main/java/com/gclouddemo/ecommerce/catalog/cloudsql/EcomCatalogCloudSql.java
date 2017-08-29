@@ -126,13 +126,15 @@ public class EcomCatalogCloudSql implements EcomCatalogConnection {
 				
 				rs = conn.createStatement().executeQuery(ssb.toString());
 				
-				
+				if (rs != null) {
+					while (rs.next()) {
+						items.add(constructItem(rs));
+					}
+				}
 			}
 		} finally {
 			if (rs != null) {
-				while (rs.next()) {
-					items.add(constructItem(rs));
-				}
+				rs.close();
 			}
 			
 			if (formatter != null) {
@@ -200,12 +202,15 @@ public class EcomCatalogCloudSql implements EcomCatalogConnection {
 	public CatalogItem getSku(String sku) throws Exception {
 		if (conn != null && sku != null) {
 			PreparedStatement preparedStatement = null;
-			
+			ResultSet rs = null;
 			try {
 				preparedStatement = conn.prepareStatement(SKU_ITEM_QUERY_STR);
 				preparedStatement.setString(1, sku);
-				ResultSet rs = preparedStatement.executeQuery();
-				return constructItem(rs);
+				rs = preparedStatement.executeQuery();
+				if (rs.next()) {
+					// Only want the first one here -- HR.
+					return constructItem(rs);
+				}
 			} finally {
 				if (preparedStatement != null) {
 					preparedStatement.close();
