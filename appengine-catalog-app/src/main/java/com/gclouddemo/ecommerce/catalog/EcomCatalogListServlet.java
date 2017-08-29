@@ -18,28 +18,23 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.gclouddemo.ecommerce.catalog.bean.CatalogItem;
 import com.gclouddemo.ecommerce.catalog.cloudsql.EcomCatalogCloudSql;
-import com.gclouddemo.ecommerce.catalog.renderer.EcomHtmlRenderer;
 import com.gclouddemo.ecommerce.catalog.renderer.EcomJsonRenderer;
 import com.google.gson.Gson;
 
 /**
- * App engine entry servlet that fields the main ecommerce REST get calls for the product catalog.
+ * Catalog app App Engine listing servlet REST call implementer.
  */
-public class EcomCatalogServlet extends HttpServlet {
+public class EcomCatalogListServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = Logger.getLogger(EcomCatalogServlet.class.getName());
+	private static final Logger LOG = Logger.getLogger(EcomCatalogListServlet.class.getName());
 	    
     private static final String CONNECTION_TYPE_CLOUDSQL = "cloudsql";
     private static final String CONNECTION_TYPE_TEST = "test";
     
     private static final String MIME_TYPE_JSON = "application/json";
-    private static final String MIME_TYPE_HTML = "text/html";
     
     private static final String PARAM_QUERY_LIST_NAME = "l";
-    private static final String PARAM_RENDER_TYPE_NAME = "r";
-    private static final String PARAM_RENDER_JSON = "json";
-    private static final String PARAM_RENDER_HTML = "html";
     
     private static final String PARAM_CATEGORY_NAME = "c";
     private static final String PARAM_SUBCATEGORY_NAME = "s";
@@ -57,7 +52,7 @@ public class EcomCatalogServlet extends HttpServlet {
     private boolean useSql = true;
     private static final Gson gson = new Gson();
        	
-    public EcomCatalogServlet() {
+    public EcomCatalogListServlet() {
     	super();
     	try {
     		// Retrieve the MySQL password from the cloud storage object:
@@ -79,7 +74,6 @@ public class EcomCatalogServlet extends HttpServlet {
 		
 		EcomCatalogConnection conn = null;
 		String listParam = request.getParameter(PARAM_QUERY_LIST_NAME);
-		String renderType = request.getParameter(PARAM_RENDER_TYPE_NAME);
 		String categoryName = request.getParameter(PARAM_CATEGORY_NAME);
 		String subCategoryName = request.getParameter(PARAM_SUBCATEGORY_NAME);
 		
@@ -94,14 +88,9 @@ public class EcomCatalogServlet extends HttpServlet {
 
 			if (conn != null) {
 				if (listParam != null) {
-					if (PARAM_RENDER_JSON.equalsIgnoreCase(renderType)) {
-						sendJson(response,
-								new EcomJsonRenderer().renderItemList(getItemList(conn, categoryName, subCategoryName),
-															null, null));
-					} else if (PARAM_RENDER_HTML.equalsIgnoreCase(renderType)) {
-						sendHtml(response, new EcomHtmlRenderer().renderItemList(getItemList(conn, categoryName, subCategoryName),
-								"<html><body>", "</body></html>"));
-					}
+					sendJson(response,
+							new EcomJsonRenderer().renderItemList(getItemList(conn, categoryName, subCategoryName),
+														null, null));
 				}
 			}	
 		} catch (Throwable thr) {
@@ -176,10 +165,6 @@ public class EcomCatalogServlet extends HttpServlet {
 	
 	private void sendJson(HttpServletResponse response, String jsonStr) throws Exception {		
 		sendBody(response, jsonStr, MIME_TYPE_JSON);
-	}
-	
-	private void sendHtml(HttpServletResponse response, String htmlStr) throws Exception {
-		sendBody(response, htmlStr, MIME_TYPE_HTML);
 	}
 	
 	private void sendBody(HttpServletResponse response, String bodyStr, String mimeType) throws Exception {

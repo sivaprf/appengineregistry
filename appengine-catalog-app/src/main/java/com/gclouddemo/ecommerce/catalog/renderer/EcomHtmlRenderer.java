@@ -6,7 +6,7 @@ package com.gclouddemo.ecommerce.catalog.renderer;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.gclouddemo.ecommerce.catalog.EcomCatalogServlet;
+import com.gclouddemo.ecommerce.catalog.EcomCatalogListServlet;
 import com.gclouddemo.ecommerce.catalog.bean.CatalogItem;
 
 /**
@@ -14,7 +14,7 @@ import com.gclouddemo.ecommerce.catalog.bean.CatalogItem;
  */
 public class EcomHtmlRenderer implements EcomCatalogRenderer {
 	@SuppressWarnings("unused")
-	private static final Logger LOG = Logger.getLogger(EcomCatalogServlet.class.getName());
+	private static final Logger LOG = Logger.getLogger(EcomCatalogListServlet.class.getName());
 
 	public String renderItemList(List<CatalogItem> items, String prefixStr, String suffixStr) {
 		StringBuilder renderedItems = new StringBuilder();

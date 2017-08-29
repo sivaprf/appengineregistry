@@ -13,12 +13,12 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
   <servlet>
-    <servlet-name>EcomCatalogServlet</servlet-name>
-    <servlet-class>com.gclouddemo.ecommerce.catalog.EcomCatalogServlet</servlet-class>
+    <servlet-name>EcomCatalogListServlet</servlet-name>
+    <servlet-class>com.gclouddemo.ecommerce.catalog.EcomCatalogListServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>EcomCatalogServlet</servlet-name>
-    <url-pattern>/catalog</url-pattern>
+    <servlet-name>EcomCatalogListServlet</servlet-name>
+    <url-pattern>/list</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>ChallengeServlet</servlet-name>
