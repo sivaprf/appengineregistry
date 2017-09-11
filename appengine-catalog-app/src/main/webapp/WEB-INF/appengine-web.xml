@@ -13,7 +13,7 @@
         <property name="key-name" value="ecom-dev-sql-login" />
         <property name="mysql-pwd-bucketname" value="ecom-dev-sql-files" />
         <property name="mysql-pwd-objectname" value="sql-login.txt" />
-    	<property name="cloudsql-local" value="jdbc:mysql://35.202.25.113/${database}?user=${user}&amp;password=" />
+    	<property name="cloudsql-local" value="jdbc:mysql://localhost:3306/${database}?useSSL=false&amp;user=${user}&amp;password=${password}" />
     	<property name="cloudsql-deployed" value="jdbc:google:mysql://${instance_connection_name}/${database}?user=${user}&amp;password=" />
     </system-properties>
 </appengine-web-app>

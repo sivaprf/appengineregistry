@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.gclouddemo.ecommerce.catalog;
+package com.gclouddemo.ecommerce.catalog.common;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -39,6 +39,15 @@ public class KmsHelper {
 	
 	private static final String LOCATION = "global";
 	private static final String KEY_RES_NAME_FMT_STR = "projects/%s/locations/%s/keyRings/%s/cryptoKeys/%s";
+	
+    public static final String CLIENT_NAME = "GCloud Catalog App Engine Example";
+    public static final String KEY_PROJECT_NAME = "keyring-project-name";
+    
+    public static final String KEYRING_NAME_PROP = "keyring-name";
+    public static final String KEY_NAME_PROP = "key-name";
+    
+    public static final String BUCKET_NAME_PROP_NAME = "mysql-pwd-bucketname";
+    public static final String OBJECT_NAME_PROP_NAME = "mysql-pwd-objectname";
 	
 	// BUFFER_SIZE doesn't actually need to be big here -- we're only getting the password (HR)
 	private static final int BUFFER_SIZE = 1024; 

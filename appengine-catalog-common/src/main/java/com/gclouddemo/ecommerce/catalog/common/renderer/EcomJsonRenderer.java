@@ -1,16 +1,16 @@
 /**
  * 
  */
-package com.gclouddemo.ecommerce.catalog.renderer;
+package com.gclouddemo.ecommerce.catalog.common.renderer;
 
 import java.util.List;
 
-import com.gclouddemo.ecommerce.catalog.bean.CatalogItem;
+import com.gclouddemo.ecommerce.catalog.common.bean.CatalogItem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 /**
- * Render unto JSON.
+ *
  */
 public class EcomJsonRenderer implements EcomCatalogRenderer {
 	
@@ -39,5 +39,6 @@ public class EcomJsonRenderer implements EcomCatalogRenderer {
 		}
 		return null;
 	}
+
 
 }

@@ -57,6 +57,9 @@ public class HttpsRedirectFilter implements Filter {
 	
 	private String getHttpsRedirect(HttpServletRequest request) {
 		if (!PREFERRED_REQUEST_SCHEME.equalsIgnoreCase(request.getScheme())) {
+			if ("localhost".equalsIgnoreCase(request.getServerName())) {
+				return null;
+			}
 			String httpsUrl = PREFERRED_REQUEST_SCHEME + "://" + request.getServerName()
             				+ request.getContextPath() + request.getServletPath();
 	        if (request.getPathInfo() != null) {

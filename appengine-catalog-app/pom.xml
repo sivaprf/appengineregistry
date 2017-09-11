@@ -46,6 +46,11 @@ limitations under the License.
   </prerequisites>
 
   <dependencies>
+    <dependency>
+      <groupId>com.gclouddemo.catalog</groupId>
+      <artifactId>appengine-catalog-common</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
     <!-- Compile/runtime dependencies -->
     <dependency>
       <groupId>com.google.appengine</groupId>
@@ -203,12 +208,13 @@ limitations under the License.
   </build>
   <profiles>
   	<profile>
-	  	<id>cloud-dev</id>
+  		<!--  local dev props for appengine:run connections, etc. Make your own here... -->
+  		<!-- DO NOT PUT ANY NON-LOCAL, NON_DEV CREDENTIALS HERE -->
+	  	<id>dev-local-mysql-hreid</id>
   		<properties>
-	  		<instance_connection_name>xxxxx</instance_connection_name>
-		    <user>gcpdemouser</user>
-		    <password>xxxx</password>
-		    <database>xxxx</database>
+		    <user>gclouddemouser</user>
+		    <password>3aeXENDqFMohcAtmTL</password>
+		    <database>gclouddemo_catalog</database>
   		</properties>
   	</profile>
   </profiles>

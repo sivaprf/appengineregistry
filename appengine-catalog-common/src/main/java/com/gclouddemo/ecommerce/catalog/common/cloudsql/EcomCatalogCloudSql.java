@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.gclouddemo.ecommerce.catalog.cloudsql;
+package com.gclouddemo.ecommerce.catalog.common.cloudsql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,12 +14,12 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.gclouddemo.ecommerce.catalog.EcomCatalogConnection;
-import com.gclouddemo.ecommerce.catalog.bean.CatalogItem;
+import com.gclouddemo.ecommerce.catalog.common.EcomCatalogConnection;
+import com.gclouddemo.ecommerce.catalog.common.bean.CatalogItem;
 import com.google.apphosting.api.ApiProxy;
 
 /**
- *
+ * Cloud SQL version of the catalog datastore connection.
  */
 public class EcomCatalogCloudSql implements EcomCatalogConnection {
 	
@@ -28,7 +28,7 @@ public class EcomCatalogCloudSql implements EcomCatalogConnection {
 	/** SKU used to flag non-display (test) entries */
 	private static final String TEST_SKU = "ZZ-0000-Z";
 	
-	private static final String PRODUCTS_TABLE_NAME = "gclouddemo_catalog.products";
+	private static final String PRODUCTS_TABLE_NAME = "`gclouddemo_catalog`.`products`";
 	
 	private static final String LIST_QUERY_ALL_STR = "SELECT * FROM " + PRODUCTS_TABLE_NAME;
 	private static final String LIST_QUERY_CAT_STR =
@@ -40,8 +40,8 @@ public class EcomCatalogCloudSql implements EcomCatalogConnection {
 			"SELECT * FROM " + PRODUCTS_TABLE_NAME + " WHERE sku=?";
 	
 	private static final String ITEM_INSERT_QUERY = "INSERT INTO " + PRODUCTS_TABLE_NAME
-			+ " VALUES (summary, sku, description, price, thumb, image, category, subcategory, details)"
-			+ "(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			+ " (`summary`, `sku`, `description`, `price`, `thumb`, `image`, `category`, `subcategory`, `details`)"
+			+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 	private static final int PRODUCTS_ID_COL = 1;
 	private static final int PRODUCTS_SUMMARY_COL = 2;
@@ -74,6 +74,8 @@ public class EcomCatalogCloudSql implements EcomCatalogConnection {
 				if (urlTemplate != null) {
 					return urlTemplate + (pwd == null ? "" : pwd);
 				}
+			} else {
+				return System.getProperty(LOCAL_CONN_PROP_NAME);
 			}
 		} else {
 			return System.getProperty(LOCAL_CONN_PROP_NAME);
@@ -167,8 +169,7 @@ public class EcomCatalogCloudSql implements EcomCatalogConnection {
 				preparedStatement.setString(6, catalogItem.getImage());
 				preparedStatement.setString(7, catalogItem.getCategory());
 				preparedStatement.setString(8, catalogItem.getSubcategory());
-				preparedStatement.setString(9, catalogItem.getDetails());
-				
+				preparedStatement.setString(9, catalogItem.getDetails());				
 				preparedStatement.execute();
 				return true;
 			}

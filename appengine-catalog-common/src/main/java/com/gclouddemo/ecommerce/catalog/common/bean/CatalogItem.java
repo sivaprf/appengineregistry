@@ -1,9 +1,11 @@
 /**
  * 
  */
-package com.gclouddemo.ecommerce.catalog.bean;
+package com.gclouddemo.ecommerce.catalog.common.bean;
 
 import java.math.BigDecimal;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,6 +25,8 @@ public class CatalogItem {
 	private String subcategory;
 	private String details;
 	
+	private static final Logger LOG = Logger.getLogger(CatalogItem.class.getName());
+	
 	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
 	public String getDetails() {
@@ -34,6 +38,18 @@ public class CatalogItem {
 	}
 
 	public CatalogItem() {
+	}
+	
+	public static CatalogItem makeItemFromJson(String json) {
+		if (json != null) {
+			try {
+				return gson.fromJson(json, CatalogItem.class);
+			} catch (Throwable thr) {
+				LOG.log(Level.SEVERE, thr.getLocalizedMessage(), thr);
+			}
+		}
+		
+		return null;
 	}
 	
 	public CatalogItem(long id, String sku, String summary, String description, BigDecimal price, String thumb, String image,

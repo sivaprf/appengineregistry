@@ -1,11 +1,11 @@
 /**
  * 
  */
-package com.gclouddemo.ecommerce.catalog;
+package com.gclouddemo.ecommerce.catalog.common;
 
 import java.util.List;
 
-import com.gclouddemo.ecommerce.catalog.bean.CatalogItem;
+import com.gclouddemo.ecommerce.catalog.common.bean.CatalogItem;
 
 /**
  * A somewhat-abstract interface to the catalog store. Intended to be implemented

@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gclouddemo.ecommerce.catalog.bean.CatalogItem;
+import com.gclouddemo.ecommerce.catalog.common.bean.CatalogItem;
 
 /**
  *

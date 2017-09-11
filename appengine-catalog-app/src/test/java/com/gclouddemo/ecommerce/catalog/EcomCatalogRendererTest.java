@@ -14,9 +14,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.MockitoAnnotations;
 
-import com.gclouddemo.ecommerce.catalog.bean.CatalogItem;
-import com.gclouddemo.ecommerce.catalog.renderer.EcomCatalogRenderer;
-import com.gclouddemo.ecommerce.catalog.renderer.EcomJsonRenderer;
+import com.gclouddemo.ecommerce.catalog.common.bean.CatalogItem;
+import com.gclouddemo.ecommerce.catalog.common.renderer.EcomCatalogRenderer;
+import com.gclouddemo.ecommerce.catalog.common.renderer.EcomJsonRenderer;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
