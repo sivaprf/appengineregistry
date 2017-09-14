@@ -3,10 +3,7 @@
  */
 package com.gclouddemo.ecommerce.catalog.admin;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.HttpURLConnection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.gclouddemo.ecommerce.catalog.common.CatalogServletHelper;
 import com.gclouddemo.ecommerce.catalog.common.EcomCatalogConnection;
 import com.gclouddemo.ecommerce.catalog.common.KmsHelper;
 import com.gclouddemo.ecommerce.catalog.common.bean.CatalogItem;
@@ -28,8 +26,6 @@ import static com.gclouddemo.ecommerce.catalog.common.KmsHelper.KEY_PROJECT_NAME
 import static com.gclouddemo.ecommerce.catalog.common.KmsHelper.KEYRING_NAME_PROP;
 import static com.gclouddemo.ecommerce.catalog.common.KmsHelper.OBJECT_NAME_PROP_NAME;
 
-import static com.google.common.net.MediaType.JSON_UTF_8;
-
 /**
  *
  */
@@ -37,8 +33,6 @@ public class EcomCatalogAdminServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(EcomCatalogAdminServlet.class.getName());
-
-    private static final String MIME_TYPE_JSON = JSON_UTF_8.toString();
     
     private static final String CONNECTION_TYPE_CLOUDSQL = "cloudsql";
     private static final String CONNECTION_TYPE_TEST = "test";
@@ -49,6 +43,8 @@ public class EcomCatalogAdminServlet extends HttpServlet {
         
     private String sqlPwd = null;
     private boolean useSql = true;
+    
+    private final CatalogServletHelper servletHelper = new CatalogServletHelper();
     
     public EcomCatalogAdminServlet() {
     	try {
@@ -71,21 +67,17 @@ public class EcomCatalogAdminServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			sendJson(response, "{\"status\":\"still alive!!\"}");
+			servletHelper.sendJson(response, "{\"status\":\"still alive!!\"}");
 		} catch (Exception e) {
 			LOG.severe(e.getLocalizedMessage());
 		}
-	}
-	
-	private void sendJson(HttpServletResponse response, String jsonStr) throws Exception {		
-		sendBody(response, jsonStr, MIME_TYPE_JSON);
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		EcomCatalogConnection conn = null;
 		
-		String jsonPayload = getJsonPayload(request);
+		String jsonPayload = servletHelper.getJsonPayload(request);
 		
 		String path = request.getRequestURI();
 		if (path != null) {
@@ -99,7 +91,7 @@ public class EcomCatalogAdminServlet extends HttpServlet {
 						conn = getConnection(CONNECTION_TYPE_CLOUDSQL, url);
 						conn.open();
 						String insertResult = insertItem(conn, catalogItem);	
-						sendJson(response, insertResult);
+						servletHelper.sendJson(response, insertResult);
 					} else {
 						// do the datastore version...
 					}
@@ -113,30 +105,6 @@ public class EcomCatalogAdminServlet extends HttpServlet {
 			    }
 			}
 		}
-	}
-	
-	private String getJsonPayload(HttpServletRequest request) throws IOException {
-		StringBuilder strBuilder = new StringBuilder();
-	    BufferedReader bufferedReader = request.getReader();
-		try {
-			String line;
-			while ((line = bufferedReader.readLine()) != null) {
-			    strBuilder.append(line);
-			}
-		    return strBuilder.toString();
-		} catch (Throwable thr) {
-			LOG.severe(thr.getLocalizedMessage());
-		} finally {
-	        if (bufferedReader != null) {
-	            try {
-	            	bufferedReader.close();
-	            } catch (IOException ex) {
-	                // Don't need to report -- HR.
-	            }
-	        }
-		}
-		
-		return null;
 	}
 	
 	private EcomCatalogConnection getConnection(String type, String url) {
@@ -160,16 +128,5 @@ public class EcomCatalogAdminServlet extends HttpServlet {
 		}
 		
 		return INSERT_FAILURE_JSON;
-	}
-	
-	private void sendBody(HttpServletResponse response, String bodyStr, String mimeType) throws Exception {
-		response.setStatus(HttpURLConnection.HTTP_OK);
-		response.setContentType(mimeType);
-		PrintWriter responseWriter = response.getWriter();
-		if (bodyStr != null) {
-			responseWriter.println(bodyStr);
-		}
-		
-		responseWriter.close();
 	}
 }

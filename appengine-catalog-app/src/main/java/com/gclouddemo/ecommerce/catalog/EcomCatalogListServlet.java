@@ -4,8 +4,6 @@
 package com.gclouddemo.ecommerce.catalog;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.gclouddemo.ecommerce.catalog.common.CatalogServletHelper;
 import com.gclouddemo.ecommerce.catalog.common.EcomCatalogConnection;
 import com.gclouddemo.ecommerce.catalog.common.KmsHelper;
 import com.gclouddemo.ecommerce.catalog.common.bean.CatalogItem;
@@ -29,8 +28,6 @@ import static com.gclouddemo.ecommerce.catalog.common.KmsHelper.KEY_PROJECT_NAME
 import static com.gclouddemo.ecommerce.catalog.common.KmsHelper.KEYRING_NAME_PROP;
 import static com.gclouddemo.ecommerce.catalog.common.KmsHelper.OBJECT_NAME_PROP_NAME;
 
-import static com.google.common.net.MediaType.JSON_UTF_8;
-
 /**
  * Catalog app App Engine listing servlet REST call implementer class.
  */
@@ -41,9 +38,7 @@ public class EcomCatalogListServlet extends HttpServlet {
 	    
     private static final String CONNECTION_TYPE_CLOUDSQL = "cloudsql";
     private static final String CONNECTION_TYPE_TEST = "test";
-    
-    private static final String MIME_TYPE_JSON = JSON_UTF_8.toString();
-    
+        
     private static final String PARAM_CATEGORY_NAME = "c";
     private static final String PARAM_SUBCATEGORY_NAME = "s";
     private static final String PARAM_SKU_NAME = "k";
@@ -51,6 +46,8 @@ public class EcomCatalogListServlet extends HttpServlet {
     
     private String sqlPwd = null;
     private boolean useSql = true;
+    
+    private final CatalogServletHelper servletHelper = new CatalogServletHelper();
     
     public EcomCatalogListServlet() {
     	super();
@@ -91,9 +88,9 @@ public class EcomCatalogListServlet extends HttpServlet {
 
 			if (conn != null) {
 				if (sku != null) {
-					sendJson(response, new EcomJsonRenderer(prettyPrint).renderCatalogItem(getItem(conn, sku)));
+					servletHelper.sendJson(response, new EcomJsonRenderer(prettyPrint).renderCatalogItem(getItem(conn, sku)));
 				} else {
-					sendJson(response,
+					servletHelper.sendJson(response,
 							new EcomJsonRenderer(prettyPrint).renderItemList(
 									getItemList(conn, categoryName, subCategoryName), null, null));
 				}
@@ -150,20 +147,5 @@ public class EcomCatalogListServlet extends HttpServlet {
 			}
 		}
 		return null;
-	}
-	
-	private void sendJson(HttpServletResponse response, String jsonStr) throws Exception {		
-		sendBody(response, jsonStr, MIME_TYPE_JSON);
-	}
-	
-	private void sendBody(HttpServletResponse response, String bodyStr, String mimeType) throws Exception {
-		response.setStatus(HttpURLConnection.HTTP_OK);
-		response.setContentType(mimeType);
-		PrintWriter responseWriter = response.getWriter();
-		if (bodyStr != null) {
-			responseWriter.println(bodyStr);
-		}
-		
-		responseWriter.close();
 	}
 }
