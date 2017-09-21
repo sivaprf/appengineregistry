@@ -10,7 +10,6 @@ class ItemInfo extends Component {
 
 
   render() {
-    console.log('BookMenu-render', this.props)
     const cssImageUrl = (this.props.item.image) ? 'url(\'' + this.props.item.image + '\')' : ''
     return (
       <div className="book">

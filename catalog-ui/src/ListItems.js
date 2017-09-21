@@ -27,7 +27,6 @@ class ListItems extends Component {
     // }
 
     render() {
-      console.log('ListBooks-render', this.props)
       return (
         <div className="bookshelf">
           <h2 className="bookshelf-title">Catalog</h2>

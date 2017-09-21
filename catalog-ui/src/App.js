@@ -13,9 +13,7 @@ class CatalogApp extends React.Component {
 
 
   componentDidMount() {
-    console.log('Mount')
     CatalogAPI.getAll().then((items) => {
-      console.log('Mount-Items', items)
       this.setState({items})
     },
     (reason) => {
@@ -27,7 +25,6 @@ class CatalogApp extends React.Component {
 
 
   render() {
-    console.log('render', this.state)
     return (
       <div className="app">
         <Route exact path="/" render={() => (
