@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+  <filter>
+  	<filter-name>HTTPS Redirector</filter-name>
+  	<filter-class>com.gclouddemo.ecommerce.catalog.HttpsRedirectFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>HTTPS Redirector</filter-name>    
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <servlet>
+    <servlet-name>EcomCatalogListServlet</servlet-name>
+    <servlet-class>com.gclouddemo.ecommerce.catalog.EcomCatalogListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EcomCatalogListServlet</servlet-name>
+    <url-pattern>/list</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ChallengeServlet</servlet-name>
+    <servlet-class>com.gclouddemo.ecommerce.catalog.ChallengeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ChallengeServlet</servlet-name>
+    <url-pattern>/.well-known/acme-challenge/*</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+</web-app>
